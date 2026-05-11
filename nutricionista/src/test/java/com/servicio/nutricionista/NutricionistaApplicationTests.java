@@ -1,10 +1,10 @@
-package com.servicio.usuarios;
+package com.servicio.nutricionista;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsuariosApplicationTests {
+class NutricionistaApplicationTests {
 
 	@Test
 	void contextLoads() {

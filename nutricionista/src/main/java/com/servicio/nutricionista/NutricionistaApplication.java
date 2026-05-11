@@ -1,13 +1,13 @@
-package com.servicio.usuarios;
+package com.servicio.nutricionista;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UsuariosApplication {
+public class NutricionistaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UsuariosApplication.class, args);
+		SpringApplication.run(NutricionistaApplication.class, args);
 	}
 
 }
