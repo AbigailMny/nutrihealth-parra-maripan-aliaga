@@ -50,7 +50,7 @@ CREATE TABLE pacientes (
     telefono VARCHAR(20),
     tipo_dieta_id BIGINT,
     fecha_registro DATE NOT NULL,
-    CONSTRAINT fk_paciente_dieta FOREIGN KEY (tipo_dieta_id) REFERENCES tipos_dieta(id),
+    CONSTRAINT fk_paciente_dieta FOREIGN KEY (tipo_dieta_id) REFERENCES tipos_dieta(id)
 );
 
 -- ==========================================================
