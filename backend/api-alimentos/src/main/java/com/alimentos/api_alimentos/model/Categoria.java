@@ -1,12 +1,13 @@
 package com.alimentos.api_alimentos.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,33 +17,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "alimento")
-public class Alimento {
+@Table(name = "categorias_alimento")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_alimento;
-
-    @Column(nullable = true)
     private Long id_categoria;
 
     @Column(unique = true, nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
-    private Double proteinaG;
-
-    @Column(nullable = false)
-    private Double grasaG;
-
-    @Column(nullable = false) 
-    private Double carbohidratoG;
-
-    @Column(nullable = false)
-    private Double calorias;
-
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
-    
+    @OneToMany(mappedBy = "categoria")
+    private List<Alimento> alimentos;
 }
