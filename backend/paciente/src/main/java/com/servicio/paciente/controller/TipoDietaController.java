@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tipos-dieta")
+@RequestMapping("/api/v1/tipos-dieta")
 public class TipoDietaController {
 
     @Autowired
