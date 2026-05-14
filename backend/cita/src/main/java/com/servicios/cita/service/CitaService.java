@@ -2,7 +2,6 @@ package com.servicios.cita.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.servicios.cita.client.ExternalServiceClient;
@@ -17,12 +16,11 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class CitaService {
 
-    @Autowired
-    private CitaRepository citaRepository;
-
+    private final CitaRepository citaRepository;
     private final ExternalServiceClient client;
 
-    public CitaService(ExternalServiceClient client) {
+    public CitaService(CitaRepository citaRepository, ExternalServiceClient client) {
+        this.citaRepository = citaRepository;
         this.client = client;
     }
 

@@ -1,7 +1,5 @@
 package com.servicios.cita.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CitaDto {
+public class NutricionistaDto {
     private Long id;
-    private Long idPaciente;
-    private Long idNutricionista;
-    private LocalDateTime fechaHoraInicio;
-    private String motivo;
-    private String estado;
+    private String nombres;
+    private String apellidos;
+    private String correo;
+    private String telefono;
 }

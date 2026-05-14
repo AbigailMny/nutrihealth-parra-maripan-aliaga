@@ -1,6 +1,6 @@
 -- =====================================================================
 --  NutriHealth - Script de Datos de Prueba
---  Bases de datos: bd_nutricionista | bd_paciente | bd_alimento | bd_receta
+--  Bases de datos: bd_nutricionista | bd_paciente | bd_alimento | bd_receta | bd_cita
 -- =====================================================================
 
 -- ─────────────────────────────────────────────────────────────────────
@@ -206,6 +206,22 @@ INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
 (3,   60.0, 7),  -- Pan integral (2 rebanadas aprox.)
 (24,  60.0, 7),  -- Tomate
 (12,  80.0, 7);  -- Yogur natural sin azúcar
+
+-- ─────────────────────────────────────────────────────────────────────
+--  5. BD_CITA  (puerto 8084)
+--     Tabla: citas
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_cita;
+
+INSERT INTO citas (id_paciente, id_nutricionista, fecha_hora_inicio, motivo, estado) VALUES
+(1, 1, '2025-06-01 10:00:00', 'Consulta inicial de evaluación nutricional.', 'R'),
+(2, 1, '2025-06-01 11:30:00', 'Seguimiento de dieta hipocalórica.', 'R'),
+(3, 2, '2025-06-02 09:00:00', 'Asesoría para aumento de masa muscular.', 'C'),
+(4, 3, '2025-06-02 15:00:00', 'Control mensual de peso y medidas.', 'C'),
+(5, 4, '2025-06-03 10:00:00', 'Revisión de dieta vegetariana.', 'P'),
+(1, 2, '2025-06-15 10:00:00', 'Control de progreso y ajuste de plan.', 'P'),
+(6, 5, '2025-06-04 12:00:00', 'Consulta por alergias alimentarias.', 'X');
+
 
 -- =====================================================================
 --  FIN DEL SCRIPT
