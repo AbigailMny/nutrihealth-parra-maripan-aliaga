@@ -49,6 +49,7 @@ El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de t
 - 🧑‍⚕️ **Gestión de Pacientes** — Administración completa de pacientes con asignación de tipo de dieta personalizada.
 - 🥦 **Catálogo de Alimentos** — Base de datos de alimentos con información nutricional detallada (proteínas, grasas, carbohidratos y calorías por cada 100 g), organizada por categorías.
 - 📒 **Gestión de Recetas** — Creación de recetas personalizadas por paciente, con lista de ingredientes y cantidades en gramos.
+- 📅 **Gestión de Citas** — Programación y seguimiento de citas entre nutricionistas y pacientes.
 - 🔗 **API Gateway** — Punto de entrada único para enrutar el tráfico a todos los microservicios desde el puerto `9090`.
 - 📐 **Arquitectura** — Cada servicio posee su propia base de datos MySQL, garantizando total independencia de despliegue.
 - 🧱 **Patrón DTO** — Separación entre la capa de persistencia y la capa de presentación en todos los servicios.
@@ -77,6 +78,7 @@ El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de t
 | `bd_paciente` | MySQL 8 | Perfiles de pacientes y tipos de dieta |
 | `bd_alimento` | MySQL 8 | Catálogo de alimentos y categorías |
 | `bd_receta` | MySQL 8 | Recetas e ingredientes asociados |
+| `bd_cita` | MySQL 8 | Gestión de citas y estados |
 
 ### Herramientas
 
@@ -96,16 +98,16 @@ El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de t
                          │    API Gateway :9090  │
                          └──────────┬───────────┘
                                     │
-              ┌─────────────────────┼──────────────────────┐
-              │                     │                       │                        │
-   ┌──────────▼──────┐   ┌──────────▼──────┐   ┌──────────▼──────┐   ┌──────────▼──────┐
-   │  Nutricionista  │   │    Paciente      │   │   api-recetas   │   │  api-alimentos  │
-   │   :8081         │   │    :8085         │   │   :8082         │   │   :8083         │
-   └──────────┬──────┘   └──────────┬──────┘   └──────────┬──────┘   └──────────┬──────┘
-              │                     │                       │                        │
-   ┌──────────▼──────┐   ┌──────────▼──────┐   ┌──────────▼──────┐   ┌──────────▼──────┐
-   │bd_nutricionista │   │  bd_paciente    │   │   bd_receta     │   │  bd_alimento    │
-   └─────────────────┘   └─────────────────┘   └─────────────────┘   └─────────────────┘
+      ┌───────────────┬─────────────┼─────────────┬───────────────┐
+      │               │             │             │               │
+┌─────▼───────┐ ┌─────▼───────┐ ┌───▼────┐ ┌──────▼──────┐ ┌──────▼──────┐
+│Nutricionista│ │  Paciente   │ │  Cita  │ │ api-recetas │ │api-alimentos│
+│   :8081     │ │   :8085     │ │ :8084  │ │   :8082     │ │   :8083     │
+└─────┬───────┘ └─────┬───────┘ └───┬────┘ └──────┬──────┘ └──────┬──────┘
+      │               │             │             │               │
+┌─────▼───────┐ ┌─────▼───────┐ ┌───▼────┐ ┌──────▼──────┐ ┌──────▼──────┐
+│bd_nutricion │ │ bd_paciente │ │bd_cita │ │  bd_receta  │ │ bd_alimento │
+└─────────────┘ └─────────────┘ └────────┘ └─────────────┘ └─────────────┘
 ```
 
 > 📷 El diagrama de arquitectura del sistema se encuentra en [`Diagrama de arquitectura.png`](./Diagrama%20de%20arquitectura.png) en la raíz del repositorio.
@@ -137,6 +139,7 @@ CREATE DATABASE bd_nutricionista;
 CREATE DATABASE bd_paciente;
 CREATE DATABASE bd_alimento;
 CREATE DATABASE bd_receta;
+CREATE DATABASE bd_cita;
 ```
 
 ### 3. Configurar credenciales
@@ -148,6 +151,7 @@ backend/nutricionista/src/main/resources/application.properties
 backend/paciente/src/main/resources/application.properties
 backend/api-alimentos/src/main/resources/application.properties
 backend/api-recetas/src/main/resources/application.properties
+backend/cita/src/main/resources/application.properties
 ```
 
 ```properties
@@ -196,7 +200,13 @@ mvn spring-boot:run
 ```
 
 ```bash
-# Terminal 5 — API Gateway (puerto 9090) — Iniciar AL FINAL
+# Terminal 5 — Cita (puerto 8084)
+cd backend/cita
+mvn spring-boot:run
+```
+
+```bash
+# Terminal 6 — API Gateway (puerto 9090) — Iniciar AL FINAL
 cd backend/apigateway
 mvn spring-boot:run
 ```
@@ -270,6 +280,16 @@ Todos los endpoints son accesibles a través del **API Gateway** en `http://loca
 | `POST` | `/api/v1/ingredientes` | Añadir ingrediente a receta |
 | `PUT` | `/api/v1/ingredientes/{id}` | Actualizar ingrediente |
 | `DELETE` | `/api/v1/ingredientes/{id}` | Eliminar ingrediente |
+
+### 📅 Citas — Servicio: `http://localhost:8084`
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `GET` | `/api/v1/citas` | Listar todas las citas |
+| `GET` | `/api/v1/citas/{id}` | Obtener cita por ID |
+| `POST` | `/api/v1/citas` | Crear nueva cita |
+| `PUT` | `/api/v1/citas/{id}` | Actualizar cita existente |
+| `DELETE` | `/api/v1/citas/{id}` | Eliminar cita |
 
 ---
 
