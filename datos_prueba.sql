@@ -1,0 +1,212 @@
+-- =====================================================================
+--  NutriHealth - Script de Datos de Prueba
+--  Bases de datos: bd_nutricionista | bd_paciente | bd_alimento | bd_receta
+-- =====================================================================
+
+-- ─────────────────────────────────────────────────────────────────────
+--  1. BD_NUTRICIONISTA  (puerto 8081)
+--     Tabla: nutricionistas
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_nutricionista;
+
+INSERT INTO nutricionistas (nombres, apellidos, correo, telefono) VALUES
+('Camila',     'Rojas Vega',      'camila.rojas@nutrihealth.cl',    '+56912345678'),
+('Sebastián',  'Muñoz Pinto',     'sebastian.munoz@nutrihealth.cl', '+56923456789'),
+('Valentina',  'Torres Sánchez',  'valentina.torres@nutrihealth.cl','+56934567890'),
+('Felipe',     'Araya Contreras', 'felipe.araya@nutrihealth.cl',    '+56945678901'),
+('Daniela',    'Lagos Fuentes',   'daniela.lagos@nutrihealth.cl',   '+56956789012');
+
+
+-- ─────────────────────────────────────────────────────────────────────
+--  2. BD_PACIENTE  (puerto 8085)
+--     Tablas: tipos_dieta → pacientes
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_paciente;
+
+-- 2.1 Tipos de dieta
+INSERT INTO tipos_dieta (nombre, descripcion) VALUES
+('Normocalórica',  'Dieta estándar equilibrada en macronutrientes para el mantenimiento del peso corporal.'),
+('Hipocalórica',   'Dieta con aporte energético reducido, orientada a la pérdida de peso de forma gradual.'),
+('Hipercalórica',  'Dieta con mayor aporte energético para personas con necesidades aumentadas o bajo peso.'),
+('Hiperproteica',  'Dieta con alto contenido proteico, usada en procesos de recuperación muscular o deportistas.'),
+('Vegetariana',    'Dieta sin carnes ni pescados; incluye lácteos y huevos. Variante lacto-ovo-vegetariana.');
+
+-- 2.2 Pacientes
+INSERT INTO pacientes (run, nombres, apellidos, correo, telefono, tipo_dieta_id, fecha_registro) VALUES
+('12345678-9', 'Andrés',   'Parra Núñez',     'andres.parra@mail.com',    '+56911111111', 1, '2025-01-15'),
+('98765432-1', 'Sofía',    'Maripán Castro',  'sofia.maripan@mail.com',   '+56922222222', 2, '2025-02-20'),
+('11223344-5', 'Nicolás',  'Aliaga Rivera',   'nicolas.aliaga@mail.com',  '+56933333333', 4, '2025-03-10'),
+('55443322-1', 'Isidora',  'Gómez Salas',     'isidora.gomez@mail.com',   '+56944444444', 3, '2025-04-05'),
+('66778899-0', 'Tomás',    'Bravo Espinoza',  'tomas.bravo@mail.com',     '+56955555555', 5, '2025-05-01'),
+('33221100-K', 'Javiera',  'Soto Poblete',    'javiera.soto@mail.com',    '+56966666666', 2, '2025-06-18'),
+('44332211-2', 'Matías',   'Herrera Leal',    'matias.herrera@mail.com',  '+56977777777', 1, '2025-07-22');
+
+
+-- ─────────────────────────────────────────────────────────────────────
+--  3. BD_ALIMENTO  (puerto 8083)
+--     Tablas: categorias_alimento → alimento
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_alimento;
+
+-- 3.1 Categorías de alimento
+INSERT INTO categorias_alimento (nombre) VALUES
+('Cereales y Legumbres'),
+('Carnes y Pescados'),
+('Lácteos y Huevos'),
+('Frutas'),
+('Verduras y Hortalizas'),
+('Grasas y Aceites'),
+('Frutos Secos');
+
+-- 3.2 Alimentos  (proteínaG | grasaG | carbohidratoG | calorías por 100 g)
+INSERT INTO alimento (nombre, proteinag, grasag, carbohidratog, calorias, categoria_id) VALUES
+-- Cereales y Legumbres (id=1)
+('Arroz cocido',         2.7,  0.3, 28.2, 130, 1),
+('Avena en hojuelas',    13.0, 7.0, 67.0, 389, 1),
+('Pan integral',          8.0, 2.5, 41.0, 247, 1),
+('Lentejas cocidas',      9.0, 0.4, 20.0, 116, 1),
+('Garbanzos cocidos',     9.0, 3.0, 27.0, 164, 1),
+
+-- Carnes y Pescados (id=2)
+('Pechuga de pollo',     31.0, 3.6,  0.0, 165, 2),
+('Salmón al vapor',      25.0, 13.0, 0.0, 206, 2),
+('Carne de vacuno magra',26.0, 7.0,  0.0, 172, 2),
+('Atún en agua',         26.0, 1.0,  0.0, 116, 2),
+('Merluza al horno',     19.0, 1.0,  0.0,  82, 2),
+
+-- Lácteos y Huevos (id=3)
+('Leche semidescremada',  3.4, 1.5,  4.8,  46, 3),
+('Yogur natural sin azúcar',5.0,2.0, 3.5,  53, 3),
+('Queso fresco',         12.0, 6.0,  2.0, 112, 3),
+('Huevo entero cocido',  13.0,10.0,  1.1, 155, 3),
+('Clara de huevo',       11.0, 0.2,  0.7,  52, 3),
+
+-- Frutas (id=4)
+('Manzana',               0.3, 0.2, 14.0,  52, 4),
+('Plátano',               1.1, 0.3, 23.0,  89, 4),
+('Naranja',               0.9, 0.1, 12.0,  47, 4),
+('Frutilla',              0.7, 0.3,  8.0,  32, 4),
+('Kiwi',                  1.1, 0.5, 15.0,  61, 4),
+
+-- Verduras y Hortalizas (id=5)
+('Brócoli cocido',        2.8, 0.4,  5.2,  35, 5),
+('Espinaca cruda',        2.9, 0.4,  3.6,  23, 5),
+('Zanahoria cruda',       0.9, 0.2, 10.0,  41, 5),
+('Tomate',                0.9, 0.2,  3.9,  18, 5),
+('Pepino',                0.7, 0.1,  3.6,  15, 5),
+
+-- Grasas y Aceites (id=6)
+('Aceite de oliva extra virgen', 0.0, 100.0, 0.0, 884, 6),
+('Palta',                        2.0,  15.0, 9.0, 160, 6),
+('Mantequilla',                  0.9,  81.0, 0.1, 717, 6),
+
+-- Frutos Secos (id=7)
+('Almendras',           21.0, 50.0, 20.0, 579, 7),
+('Nueces',              15.0, 65.0, 14.0, 654, 7);
+
+
+-- ─────────────────────────────────────────────────────────────────────
+--  4. BD_RECETA  (puerto 8082)
+--     Tablas: receta → receta_ingredientes
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_receta;
+
+-- 4.1 Recetas
+INSERT INTO receta (id_paciente, nombre_plato, preparacion, estado, anotaciones) VALUES
+(1, 'Bowl de Pollo con Arroz y Verduras',
+ 'Cocinar el arroz y el brócoli al vapor. Grillar la pechuga de pollo con sal, pimienta y ajo. Servir en bowl con zanahoria rallada.',
+ 'ACTIVA',
+ 'Apta para dieta normocalórica. Alta en proteínas y fibra.'),
+
+(2, 'Salmón al Horno con Ensalada',
+ 'Marinar el salmón con limón y hierbas. Hornear 20 min a 180°C. Preparar ensalada de espinaca, tomate y pepino con aceite de oliva.',
+ 'ACTIVA',
+ 'Rica en omega-3. Recomendada para control de peso.'),
+
+(3, 'Omelette de Claras con Verduras',
+ 'Batir las claras de huevo con sal. Saltear brócoli, tomate y espinaca. Incorporar al omelette y cocinar a fuego medio.',
+ 'ACTIVA',
+ 'Alta en proteínas y baja en calorías. Ideal para hiperproteica.'),
+
+(4, 'Avena con Frutas y Almendras',
+ 'Preparar avena con leche semidescremada. Agregar frutillas, plátano y almendras picadas. Opcional: endulzar con miel.',
+ 'ACTIVA',
+ 'Desayuno hipercalórico nutritivo. Rica en fibra y micronutrientes.'),
+
+(5, 'Ensalada de Lentejas Vegetariana',
+ 'Cocinar lentejas. Mezclar con tomate, pepino, zanahoria y palta. Aliñar con aceite de oliva y limón.',
+ 'ACTIVA',
+ '100% vegetariana. Excelente fuente de proteína vegetal.'),
+
+(6, 'Atún con Garbanzos y Verduras',
+ 'Mezclar atún en agua escurrido con garbanzos cocidos. Añadir tomate, espinaca y pepino. Aliñar con aceite de oliva.',
+ 'ACTIVA',
+ 'Ideal para hipocalórica. Alta en proteína y fibra, baja en grasa.'),
+
+(7, 'Pechuga de Pollo con Pan Integral',
+ 'Grillar la pechuga de pollo. Servir con 2 rebanadas de pan integral, tomate y yogur natural como salsa.',
+ 'BORRADOR',
+ 'En revisión nutricional. Balanceada en macronutrientes.');
+
+
+-- 4.2 Ingredientes de recetas
+--  Receta 1: Bowl de Pollo con Arroz y Verduras
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(6,  150.0, 1),  -- Pechuga de pollo
+(1,  100.0, 1),  -- Arroz cocido
+(21,  80.0, 1),  -- Brócoli cocido
+(23,  50.0, 1),  -- Zanahoria cruda
+(26,  10.0, 1);  -- Aceite de oliva
+
+--  Receta 2: Salmón al Horno con Ensalada
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(7,  180.0, 2),  -- Salmón al vapor
+(22,  60.0, 2),  -- Espinaca cruda
+(24,  80.0, 2),  -- Tomate
+(25,  60.0, 2),  -- Pepino
+(26,  10.0, 2);  -- Aceite de oliva
+
+--  Receta 3: Omelette de Claras con Verduras
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(15, 200.0, 3),  -- Clara de huevo (≈4 claras)
+(21,  70.0, 3),  -- Brócoli cocido
+(24,  60.0, 3),  -- Tomate
+(22,  40.0, 3),  -- Espinaca cruda
+(26,   5.0, 3);  -- Aceite de oliva
+
+--  Receta 4: Avena con Frutas y Almendras
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(2,   80.0, 4),  -- Avena en hojuelas
+(11, 200.0, 4),  -- Leche semidescremada
+(19,  80.0, 4),  -- Frutilla
+(17,  70.0, 4),  -- Plátano
+(29,  25.0, 4);  -- Almendras
+
+--  Receta 5: Ensalada de Lentejas Vegetariana
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(4,  150.0, 5),  -- Lentejas cocidas
+(24,  80.0, 5),  -- Tomate
+(25,  60.0, 5),  -- Pepino
+(23,  50.0, 5),  -- Zanahoria cruda
+(27, 100.0, 5),  -- Palta
+(26,  10.0, 5);  -- Aceite de oliva
+
+--  Receta 6: Atún con Garbanzos y Verduras
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(9,  120.0, 6),  -- Atún en agua
+(5,  100.0, 6),  -- Garbanzos cocidos
+(24,  70.0, 6),  -- Tomate
+(22,  50.0, 6),  -- Espinaca cruda
+(25,  50.0, 6),  -- Pepino
+(26,  10.0, 6);  -- Aceite de oliva
+
+--  Receta 7: Pechuga con Pan Integral
+INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
+(6,  120.0, 7),  -- Pechuga de pollo
+(3,   60.0, 7),  -- Pan integral (2 rebanadas aprox.)
+(24,  60.0, 7),  -- Tomate
+(12,  80.0, 7);  -- Yogur natural sin azúcar
+
+-- =====================================================================
+--  FIN DEL SCRIPT
+-- =====================================================================

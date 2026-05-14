@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "ApiAlimentosApplication",
+            "request": "launch",
+            "mainClass": "com.alimentos.api_alimentos.ApiAlimentosApplication",
+            "projectName": "api-alimentos"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiRecetasApplication<api-recetas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.recetas.api_recetas.ApiRecetasApplication",
+            "projectName": "api-recetas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
