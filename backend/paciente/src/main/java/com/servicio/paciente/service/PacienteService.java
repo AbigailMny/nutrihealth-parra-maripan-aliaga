@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface PacienteService {
     List<PacienteDTO> findAll();
+    List<PacienteDTO> searchByNombreApellido(String nombre, String apellido);
     PacienteDTO findById(Long id);
     PacienteDTO save(PacienteDTO pacienteDTO);
     PacienteDTO update(Long id, PacienteDTO pacienteDTO);

@@ -22,6 +22,20 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.findAll());
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity<List<PacienteDTO>> buscarPacientes(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String apellido) {
+        if ((nombre == null || nombre.isBlank()) && (apellido == null || apellido.isBlank())) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<PacienteDTO> pacientes = pacienteService.searchByNombreApellido(nombre, apellido);
+        if (pacientes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(pacientes);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PacienteDTO> getPacienteById(@PathVariable Long id) {
         return ResponseEntity.ok(pacienteService.findById(id));
