@@ -2,6 +2,8 @@ package com.recetas.api_recetas.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +41,7 @@ public class Receta {
     @Column(nullable = true)
     private String anotaciones;
 
-    @OneToMany(mappedBy = "receta")
+    @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<RecetaIngredientes> ingredientes;
 }

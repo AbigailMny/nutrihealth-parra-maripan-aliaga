@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recetas.api_recetas.model.Receta;
+import com.recetas.api_recetas.model.RecetaIngredientes;
 import com.recetas.api_recetas.service.RecetaService;
 
 @RestController
@@ -51,17 +52,25 @@ public class RecetaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Receta> modificarReceta(@PathVariable Long id, @RequestBody Receta unaReceta){
-        try{
+        try {
             Receta rec = recetaService.buscarId(id);
             rec.setId_receta(id);
             rec.setNombre_plato(unaReceta.getNombre_plato());
             rec.setPreparacion(unaReceta.getPreparacion());
             rec.setEstado(unaReceta.getEstado());
             rec.setAnotaciones(unaReceta.getAnotaciones());
-
-            recetaService.crearReceta(unaReceta);
-            return ResponseEntity.ok(unaReceta);
-        }catch (Exception e){
+                        
+            if (unaReceta.getIngredientes() != null) {
+                for (RecetaIngredientes ing : unaReceta.getIngredientes()) {
+                    ing.setReceta(rec); 
+                }
+            }
+            rec.setIngredientes(unaReceta.getIngredientes());
+            
+            Receta recetaGuardada = recetaService.crearReceta(rec);
+            
+            return ResponseEntity.ok(recetaGuardada);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }    
     }

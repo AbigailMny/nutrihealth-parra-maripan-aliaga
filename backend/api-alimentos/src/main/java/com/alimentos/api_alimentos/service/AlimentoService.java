@@ -29,6 +29,10 @@ public class AlimentoService {
         return alimentoRepository.save(alimento);
     }
 
+    public List<Alimento> buscarPorCaloriasMaximas(Double calorias) {
+    return alimentoRepository.findByCaloriasLessThanEqual(calorias);
+    }
+
     public void eliminarAlimento(Long id){
         alimentoRepository.deleteById(id);
     }

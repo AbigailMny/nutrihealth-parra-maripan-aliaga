@@ -60,11 +60,23 @@ public class AlimentoController {
             ali.setGrasaG(alimento.getGrasaG());
             ali.setCalorias(alimento.getCalorias());
 
-            alimentoService.crearAlimento(alimento);
+            ali.setCategoria(alimento.getCategoria());
+            
+            alimentoService.crearAlimento(ali);
             return ResponseEntity.ok(alimento);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/calorias-max/{calorias}")
+    public ResponseEntity<List<Alimento>> listarPorCaloriasMaximas(@PathVariable Double calorias) {
+    List<Alimento> alimentos = alimentoService.buscarPorCaloriasMaximas(calorias);
+    
+    if (alimentos.isEmpty()) {
+        return ResponseEntity.noContent().build(); 
+    }  
+    return ResponseEntity.ok(alimentos); 
     }
 
     @DeleteMapping("/{id}")

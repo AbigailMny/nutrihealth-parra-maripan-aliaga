@@ -55,7 +55,7 @@ public class CategoriaController {
             cat.setId_categoria(id);
             cat.setNombre(categoria.getNombre());
 
-            categoriaService.crearCategoria(categoria);
+            categoriaService.crearCategoria(cat);
             return ResponseEntity.ok(categoria);
         }catch (Exception e){
             return ResponseEntity.notFound().build();

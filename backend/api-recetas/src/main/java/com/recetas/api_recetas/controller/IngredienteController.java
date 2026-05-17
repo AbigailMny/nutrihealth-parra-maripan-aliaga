@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.recetas.api_recetas.dto.RecetaIngredienteDto;
 import com.recetas.api_recetas.model.RecetaIngredientes;
 import com.recetas.api_recetas.service.IngredientesService;
 
@@ -33,10 +34,10 @@ public class IngredienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecetaIngredientes> buscarIngrediente(@PathVariable Long id){
+    public ResponseEntity<RecetaIngredienteDto> buscarIngrediente(@PathVariable Long id){
         try{
-            RecetaIngredientes ingredientes = ingredientesService.buscarId(id);
-            return ResponseEntity.ok(ingredientes);
+            RecetaIngredienteDto ingredienteCompleto = ingredientesService.buscarIdConAlimento(id);
+            return ResponseEntity.ok(ingredienteCompleto);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }
@@ -57,9 +58,10 @@ public class IngredienteController {
             RecetaIngredientes ing = ingredientesService.buscarId(id);
             ing.setId_ingredientes(id);
             ing.setCantidadGramos(ingr.getCantidadGramos());
-
-            ingredientesService.crearIngredientes(ingr);
-            return ResponseEntity.ok(ingr);
+            ing.setReceta(ingr.getReceta());
+            
+            RecetaIngredientes ingredienteGuardado = ingredientesService.crearIngredientes(ing);
+            return ResponseEntity.ok(ingredienteGuardado);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }    
@@ -74,5 +76,7 @@ public class IngredienteController {
             return "La receta no existe";
         }
     }
+
+    
 
 }

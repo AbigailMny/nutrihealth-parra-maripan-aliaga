@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.recetas.api_recetas.client.ExternalServiceClient;
 import com.recetas.api_recetas.dto.AlimentosDto;
+import com.recetas.api_recetas.dto.RecetaIngredienteDto;
 import com.recetas.api_recetas.model.RecetaIngredientes;
 import com.recetas.api_recetas.repository.IngredientesRepository;
 import com.recetas.api_recetas.repository.RecetaRepository;
@@ -42,6 +43,18 @@ public class IngredientesService {
         }
         return ingredientesRepository.save(ing);
 
+    }
+
+    public RecetaIngredienteDto buscarIdConAlimento(Long id) {
+        RecetaIngredientes ing = buscarId(id);
+        AlimentosDto alimentoExterno = client.obtenerAlimento(ing.getId_alimento());
+        
+        RecetaIngredienteDto dto = new RecetaIngredienteDto();
+        dto.setId_ingredientes(ing.getId_ingredientes());
+        dto.setCantidadGramos(ing.getCantidadGramos());
+        dto.setAlimento(alimentoExterno);
+        
+        return dto;
     }
 
     public void eliminarIngrediente(Long id){
