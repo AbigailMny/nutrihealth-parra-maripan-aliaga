@@ -1,5 +1,6 @@
 package com.servicios.cita.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class CitaService {
     public List<Cita> mostrarCitas() {
         return citaRepository.findAll();
     } 
+
+    public List<Cita> buscarPorRangoFechas(LocalDateTime inicio, LocalDateTime fin) {
+        return citaRepository.findByFechaHoraInicioBetween(inicio, fin);
+    }
 
     public Cita buscarId(Long id) {
         return citaRepository.findById(id).orElseThrow(() -> new RuntimeException("Cita no encontrada con id: " + id));
