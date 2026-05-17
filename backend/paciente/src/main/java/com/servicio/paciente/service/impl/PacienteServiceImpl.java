@@ -10,6 +10,7 @@ import com.servicio.paciente.service.PacienteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,21 @@ public class PacienteServiceImpl implements PacienteService {
         return pacienteRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PacienteDTO> searchByNombreApellido(String nombre, String apellido) {
+        List<Paciente> pacientes;
+        if (nombre != null && !nombre.isBlank() && apellido != null && !apellido.isBlank()) {
+            pacientes = pacienteRepository.findByNombresContainingIgnoreCaseAndApellidosContainingIgnoreCase(nombre, apellido);
+        } else if (nombre != null && !nombre.isBlank()) {
+            pacientes = pacienteRepository.findByNombresContainingIgnoreCase(nombre);
+        } else if (apellido != null && !apellido.isBlank()) {
+            pacientes = pacienteRepository.findByApellidosContainingIgnoreCase(apellido);
+        } else {
+            return Collections.emptyList();
+        }
+        return pacientes.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     @Override
