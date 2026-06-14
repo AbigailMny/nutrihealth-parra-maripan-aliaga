@@ -222,6 +222,20 @@ INSERT INTO citas (id_paciente, id_nutricionista, fecha_hora_inicio, motivo, est
 (1, 2, '2025-06-15 10:00:00', 'Control de progreso y ajuste de plan.', 'P'),
 (6, 5, '2025-06-04 12:00:00', 'Consulta por alergias alimentarias.', 'X');
 
+-- ─────────────────────────────────────────────────────────────────────
+--  6. BD_MINUTA  (puerto 8086)
+--     Tabla: minutas
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_minuta;
+
+INSERT INTO minutas (paciente_id, nutricionista_id, fecha_inicio, fecha_fin, url_archivo, estado) VALUES
+(1, 1, '2025-06-01', '2025-06-30', 'https://nutrihealth.cl/archivos/minutas/paciente_1_junio.pdf', 'ACTIVA'),
+(2, 1, '2025-06-01', '2025-06-15', 'https://nutrihealth.cl/archivos/minutas/paciente_2_junio_quincena.pdf', 'ACTIVA'),
+(3, 2, '2025-06-02', '2025-07-02', 'https://nutrihealth.cl/archivos/minutas/paciente_3_musculacion.pdf', 'ACTIVA'),
+(4, 3, '2025-06-02', '2025-07-02', 'https://nutrihealth.cl/archivos/minutas/paciente_4_mantenimiento.pdf', 'ACTIVA'),
+(5, 4, '2025-06-03', '2025-07-03', 'https://nutrihealth.cl/archivos/minutas/paciente_5_vegetariana.pdf', 'ACTIVA'),
+(1, 2, '2025-05-01', '2025-05-31', 'https://nutrihealth.cl/archivos/minutas/paciente_1_mayo.pdf', 'INACTIVA'),
+(6, 5, '2025-06-04', '2025-07-04', 'https://nutrihealth.cl/archivos/minutas/paciente_6_alergias.pdf', 'ACTIVA');
 
 -- =====================================================================
 --  FIN DEL SCRIPT
