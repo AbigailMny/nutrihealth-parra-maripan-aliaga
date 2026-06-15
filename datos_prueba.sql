@@ -237,6 +237,43 @@ INSERT INTO minutas (paciente_id, nutricionista_id, fecha_inicio, fecha_fin, url
 (1, 2, '2025-05-01', '2025-05-31', 'https://nutrihealth.cl/archivos/minutas/paciente_1_mayo.pdf', 'INACTIVA'),
 (6, 5, '2025-06-04', '2025-07-04', 'https://nutrihealth.cl/archivos/minutas/paciente_6_alergias.pdf', 'ACTIVA');
 
+-- ─────────────────────────────────────────────────────────────────────
+--  7. BD_ANTECEDENTES  (puerto 8087)
+--     Tabla: antecedente
+-- ─────────────────────────────────────────────────────────────────────
+
+USE bd_antecedente;
+
+INSERT INTO enfermedades (nombre, descripcion) VALUES
+('Diabetes Tipo 2', 'Enfermedad crónica que afecta la forma en que el cuerpo procesa el azúcar en sangre.'),
+('Hipertensión Arterial', 'Presión arterial alta crónica.');
+
+INSERT INTO alergias (nombre, descripcion) VALUES
+('Maní', 'Reacción alérgica al maní o productos derivados.'),
+('Gluten', 'Intolerancia permanente al gluten (Enfermedad celíaca).'),
+('Lactosa', 'Intolerancia a la lactosa.');
+
+INSERT INTO medicamentos (nombre, descripcion) VALUES
+('Metformina', 'Medicamento oral para controlar el azúcar en sangre en personas con diabetes tipo 2.'),
+('Losartán', 'Medicamento utilizado para tratar la presión arterial alta (hipertensión).');
+
+INSERT INTO antecedentes_clinicos (paciente_id, tipo_sangre, observaciones_generales) VALUES
+(1, 'O+', 'Paciente diabético controlado con dieta y medicación.'),
+(2, 'A-', 'Paciente vegetariana con intolerancia severa al gluten.');
+
+INSERT INTO antecedente_enfermedad (antecedente_id, enfermedad_id) VALUES
+(1, 1),
+(2, 2);
+
+INSERT INTO antecedente_alergia (antecedente_id, alergia_id) VALUES
+(1, 1),
+(2, 2),
+(2, 3);
+
+INSERT INTO antecedente_medicamento (antecedente_id, medicamento_id, dosis) VALUES
+(1, 1, '850mg cada 12 horas'),
+(2, 2, '50mg una vez al día'); 
+
 -- =====================================================================
 --  FIN DEL SCRIPT
 -- =====================================================================
