@@ -5,7 +5,7 @@ USE sistema_nutricion;
 -- 1. CATÁLOGOS BÁSICOS
 -- ==========================================================
 CREATE TABLE tipos_dieta (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE,
     descripcion TEXT
 );
@@ -76,35 +76,35 @@ CREATE TABLE medicamentos (
 
 CREATE TABLE antecedentes_clinicos (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    paciente_id BIGINT NOT NULL UNIQUE,
+    paciente_id BIGINT NOT NULL UNIQUE, 
+    tipo_sangre VARCHAR(5),             
     observaciones_generales TEXT,
     CONSTRAINT fk_antecedente_paciente FOREIGN KEY (paciente_id) REFERENCES pacientes(id) ON DELETE CASCADE
 );
 
--- Tablas puente para resolver N:M
-CREATE TABLE paciente_enfermedad (
+CREATE TABLE antecedente_enfermedad (
     antecedente_id BIGINT NOT NULL,
     enfermedad_id BIGINT NOT NULL,
     PRIMARY KEY (antecedente_id, enfermedad_id),
-    CONSTRAINT fk_pe_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
-    CONSTRAINT fk_pe_enfermedad FOREIGN KEY (enfermedad_id) REFERENCES enfermedades(id)
+    CONSTRAINT fk_ae_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
+    CONSTRAINT fk_ae_enfermedad FOREIGN KEY (enfermedad_id) REFERENCES enfermedades(id) ON DELETE RESTRICT
 );
 
-CREATE TABLE paciente_alergia (
+CREATE TABLE antecedente_alergia (
     antecedente_id BIGINT NOT NULL,
     alergia_id BIGINT NOT NULL,
     PRIMARY KEY (antecedente_id, alergia_id),
-    CONSTRAINT fk_pa_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
-    CONSTRAINT fk_pa_alergia FOREIGN KEY (alergia_id) REFERENCES alergias(id)
+    CONSTRAINT fk_aa_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
+    CONSTRAINT fk_aa_alergia FOREIGN KEY (alergia_id) REFERENCES alergias(id) ON DELETE RESTRICT
 );
 
-CREATE TABLE paciente_medicamento (
+CREATE TABLE antecedente_medicamento (
     antecedente_id BIGINT NOT NULL,
     medicamento_id BIGINT NOT NULL,
     dosis VARCHAR(100),
     PRIMARY KEY (antecedente_id, medicamento_id),
-    CONSTRAINT fk_pm_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
-    CONSTRAINT fk_pm_medicamento FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id)
+    CONSTRAINT fk_am_antecedente FOREIGN KEY (antecedente_id) REFERENCES antecedentes_clinicos(id) ON DELETE CASCADE,
+    CONSTRAINT fk_am_medicamento FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id) ON DELETE RESTRICT
 );
 
 -- ==========================================================
