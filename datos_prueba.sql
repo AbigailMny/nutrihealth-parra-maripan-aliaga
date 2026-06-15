@@ -274,6 +274,76 @@ INSERT INTO antecedente_medicamento (antecedente_id, medicamento_id, dosis) VALU
 (1, 1, '850mg cada 12 horas'),
 (2, 2, '50mg una vez al día'); 
 
+-- ─────────────────────────────────────────────────────────────────────
+--  10. BD_RUTINA  (puerto 8089)
+--      Tablas: rutinas → ejercicios_rutina
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_rutina;
+
+-- 10.1 Rutinas (paciente_id referencia los IDs de bd_paciente)
+INSERT INTO rutinas (paciente_id, nombre, fecha_inicio, fecha_fin) VALUES
+(1, 'Rutina de Fuerza - Andrés',      '2025-06-01', '2025-08-31'),
+(1, 'Cardio Matutino - Andrés',       '2025-07-01', NULL),
+(2, 'Plan Tonificación - Sofía',      '2025-05-15', '2025-07-15'),
+(3, 'Masa Muscular - Nicolás',        '2025-04-01', NULL),
+(4, 'Rehabilitación - Isidora',       '2025-06-10', '2025-09-10'),
+(5, 'Pérdida de Peso - Tomás',        '2025-05-01', NULL),
+(7, 'Mantenimiento General - Matías', '2025-07-15', NULL);
+
+-- 10.2 Ejercicios de cada rutina
+-- Rutina 1: Fuerza - Andrés
+INSERT INTO ejercicios_rutina (rutina_id, nombre_ejercicio, series, repeticiones, descanso_segundos) VALUES
+(1, 'Sentadilla con barra',    4, 10, 90),
+(1, 'Press de banca',          4, 8,  90),
+(1, 'Peso muerto',             3, 6,  120),
+(1, 'Remo con barra',          3, 10, 60),
+(1, 'Curl de bíceps',          3, 12, 45),
+
+-- Rutina 2: Cardio Matutino - Andrés
+(2, 'Trote en cinta',          1, 1,  0),
+(2, 'Salto de cuerda',         4, 50, 30),
+(2, 'Burpees',                 3, 15, 45),
+(2, 'Bicicleta estática',      1, 1,  0),
+
+-- Rutina 3: Tonificación - Sofía
+(3, 'Zancadas alternadas',     3, 15, 45),
+(3, 'Sentadilla sumo',         3, 15, 45),
+(3, 'Elevaciones de cadera',   3, 20, 30),
+(3, 'Plancha frontal',         3, 1,  60),
+(3, 'Fondos de tríceps',       3, 12, 45),
+(3, 'Remo con mancuerna',      3, 12, 45),
+
+-- Rutina 4: Masa Muscular - Nicolás
+(4, 'Press militar',           4, 8,  90),
+(4, 'Dominadas',               4, 6,  90),
+(4, 'Sentadilla hack',         4, 10, 90),
+(4, 'Extensión de cuádriceps', 3, 12, 60),
+(4, 'Press de hombros',        3, 10, 60),
+(4, 'Encogimientos de hombros',3, 15, 45),
+
+-- Rutina 5: Rehabilitación - Isidora
+(5, 'Caminata en cinta (baja intensidad)', 1, 1,  0),
+(5, 'Bicicleta estática suave',           1, 1,  0),
+(5, 'Estiramiento de isquiotibiales',     3, 1,  30),
+(5, 'Fortalecimiento de glúteo medio',    3, 15, 30),
+(5, 'Plancha lateral',                    3, 1,  30),
+
+-- Rutina 6: Pérdida de Peso - Tomás
+(6, 'Sentadilla con salto',    4, 12, 45),
+(6, 'Mountain climbers',       4, 20, 30),
+(6, 'Estocadas con salto',     3, 10, 45),
+(6, 'Burpees',                 3, 12, 60),
+(6, 'Abdominales bicicleta',   3, 20, 30),
+(6, 'Plancha con toque de hombro', 3, 16, 30),
+
+-- Rutina 7: Mantenimiento General - Matías
+(7, 'Press de banca inclinado', 3, 10, 60),
+(7, 'Sentadilla goblet',        3, 12, 60),
+(7, 'Remo en polea baja',       3, 12, 60),
+(7, 'Elevaciones laterales',    3, 15, 45),
+(7, 'Curl de martillo',         3, 12, 45),
+(7, 'Abdominales en crunch',    3, 20, 30);
+
 -- =====================================================================
 --  FIN DEL SCRIPT
 -- =====================================================================
