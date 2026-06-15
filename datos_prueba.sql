@@ -222,6 +222,10 @@ INSERT INTO citas (id_paciente, id_nutricionista, fecha_hora_inicio, motivo, est
 (1, 2, '2025-06-15 10:00:00', 'Control de progreso y ajuste de plan.', 'P'),
 (6, 5, '2025-06-04 12:00:00', 'Consulta por alergias alimentarias.', 'X');
 
+-- ─────────────────────────────────────────────────────────────────────
+--  6. BD_MINUTA  (puerto 8086)
+--     Tabla: minutas
+-- ─────────────────────────────────────────────────────────────────────
 USE bd_minuta;
 
 INSERT INTO minutas (paciente_id, nutricionista_id, fecha_inicio, fecha_fin, url_archivo, estado) VALUES
