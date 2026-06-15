@@ -28,8 +28,6 @@ public class RutinaController {
     @Autowired
     private RutinaService rutinaService;
 
-    // ===== RUTINAS =====
-
     @Operation(summary = "Obtener todas las rutinas", description = "Retorna la lista completa de rutinas registradas")
     @GetMapping
     public ResponseEntity<List<RutinaDTO>> getAllRutinas() {

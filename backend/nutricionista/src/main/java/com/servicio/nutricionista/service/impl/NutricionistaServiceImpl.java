@@ -1,6 +1,7 @@
 package com.servicio.nutricionista.service.impl;
 
 import com.servicio.nutricionista.dto.NutricionistaDTO;
+import com.servicio.nutricionista.exception.ResourceNotFoundException;
 import com.servicio.nutricionista.model.Nutricionista;
 import com.servicio.nutricionista.repository.NutricionistaRepository;
 import com.servicio.nutricionista.service.NutricionistaService;
@@ -27,7 +28,7 @@ public class NutricionistaServiceImpl implements NutricionistaService {
     @Override
     public NutricionistaDTO findById(Long id) {
         Nutricionista nutri = nutricionistaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nutricionista no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Nutricionista", "id", id));
         return mapToDTO(nutri);
     }
 
@@ -41,7 +42,7 @@ public class NutricionistaServiceImpl implements NutricionistaService {
     @Override
     public NutricionistaDTO update(Long id, NutricionistaDTO nutricionistaDTO) {
         Nutricionista nutri = nutricionistaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nutricionista no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Nutricionista", "id", id));
         
         nutri.setNombres(nutricionistaDTO.getNombres());
         nutri.setApellidos(nutricionistaDTO.getApellidos());
@@ -55,7 +56,7 @@ public class NutricionistaServiceImpl implements NutricionistaService {
     @Override
     public void delete(Long id) {
         Nutricionista nutri = nutricionistaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nutricionista no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Nutricionista", "id", id));
         nutricionistaRepository.delete(nutri);
     }
 
