@@ -191,6 +191,50 @@ cd ../apigateway
 mvn spring-boot:run
 ```
 
+### 5. Proceso de Prueba de Autenticación
+
+Para verificar el correcto funcionamiento de la autenticación y probar la seguridad por roles, registra los 3 tipos de usuario en Postman/cURL enviando peticiones **POST** a `http://localhost:9090/auth/register`:
+
+#### 1. Crear Administrador
+```json
+{
+  "nombreUsuario": "admin_test",
+  "contrasena": "123456",
+  "correo": "admin@test.com",
+  "roles": ["ADMINISTRADOR"]
+}
+```
+
+#### 2. Crear Nutricionista
+```json
+{
+  "nombreUsuario": "nutri_test",
+  "contrasena": "123456",
+  "correo": "nutri@test.com",
+  "roles": ["NUTRICIONISTA"]
+}
+```
+
+#### 3. Crear Paciente
+```json
+{
+  "nombreUsuario": "paciente_test",
+  "contrasena": "123456",
+  "correo": "paciente@test.com",
+  "roles": ["PACIENTE"]
+}
+```
+
+#### Inicio de Sesión (Obtener JWT)
+Envía un **POST** a `http://localhost:9090/auth/login` con el `nombreUsuario` y `contrasena` de cualquiera de los usuarios anteriores. Copia el token de la respuesta y úsalo como **Bearer Token** en las pestañas de autorización de Postman para probar el acceso a los microservicios:
+
+Esta regla de permisos es **global** y se aplica bajo el mismo criterio para **todas las rutas** de todos los microservicios (como `/pacientes`, `/nutricionistas`, `/rutinas`, `/recetas`, `/alimentos`, `/citas`, `/minutas` y `/antecedentes`):
+
+*   **GET /api/v1/api** (Consultar cualquiera) -> Funciona con todos los roles (`ADMINISTRADOR`, `NUTRICIONISTA`, `PACIENTE`).
+*   **POST/PUT /api/v1/api** (Crear o Editar cualquiera) -> Funciona solo con `ADMINISTRADOR` y `NUTRICIONISTA`.
+*   **DELETE /api/v1/api/1** (Eliminar cualquiera) -> Funciona únicamente con `ADMINISTRADOR`.
+
+
 ---
 
 ## 📡 Endpoints de la API
