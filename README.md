@@ -24,6 +24,7 @@
 - [Características](#-características)
 - [Tecnologías Utilizadas](#-tecnologías-utilizadas)
 - [Arquitectura](#-arquitectura)
+- [Control de Acceso y Roles](#-control-de-aceso-y-roles)
 - [Instalación y Ejecución](#-instalación-y-ejecución)
 - [Endpoints de la API](#-endpoints-de-la-api)
 - [Contribución](#-contribución)
@@ -37,274 +38,233 @@
 
 El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de trabajo clínico entre nutricionistas y sus pacientes: desde el registro de perfiles y asignación de dietas, hasta la creación de recetas personalizadas con control detallado de ingredientes y macronutrientes.
 
-### Problema que resuelve
-
-> En la práctica clínica nutricional, la gestión manual de fichas de pacientes, cálculos de macronutrientes y elaboración de planes alimentarios representa una carga operativa significativa. NutriHealth automatiza y centraliza este flujo, permitiendo a los profesionales enfocarse en la atención al paciente.
-
 ---
 
 ## ✨ Características
 
 - 🏥 **Gestión de Nutricionistas** — Registro, consulta, actualización y eliminación de perfiles profesionales.
 - 🧑‍⚕️ **Gestión de Pacientes** — Administración completa de pacientes con asignación de tipo de dieta personalizada.
-- 🥦 **Catálogo de Alimentos** — Base de datos de alimentos con información nutricional detallada (proteínas, grasas, carbohidratos y calorías por cada 100 g), organizada por categorías.
-- 📒 **Gestión de Recetas** — Creación de recetas personalizadas por paciente, con lista de ingredientes y cantidades en gramos.
+- 🥦 **Catálogo de Alimentos** — Base de datos de alimentos con información nutricional detallada, organizada por categorías.
+- 📒 **Gestión de Recetas** — Creación de recetas personalizadas por paciente, con lista de ingredientes y cantidades.
 - 📅 **Gestión de Citas** — Programación y seguimiento de citas entre nutricionistas y pacientes.
+- 📝 **Minutas y Dietas** — Planificación de comidas diarias personalizadas para cada paciente.
+- 📋 **Antecedentes Médicos** — Registro de antecedentes de salud, alergias y medicamentos.
+- 🏋️ **Rutinas de Ejercicio** — Creación y asignación de planes de entrenamiento asociados a la dieta.
 - 🔗 **API Gateway** — Punto de entrada único para enrutar el tráfico a todos los microservicios desde el puerto `9090`.
-- 📐 **Arquitectura** — Cada servicio posee su propia base de datos MySQL, garantizando total independencia de despliegue.
-- 🧱 **Patrón DTO** — Separación entre la capa de persistencia y la capa de presentación en todos los servicios.
+- 🔑 **Seguridad y JWT** — Microservicio de autenticación centralizado y validación de tokens Bearer.
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-### Backend
-
-| Tecnología | Versión | Descripción |
-|---|---|---|
-| Java | 21 | Lenguaje principal del proyecto |
-| Spring Boot | 3.x | Framework base para cada microservicio |
-| Spring Data JPA | — | Capa de acceso a datos (ORM) |
-| Spring Cloud Gateway | — | API Gateway para el enrutamiento centralizado |
-| Hibernate | — | Implementación JPA / DDL automático |
-| Lombok | — | Reducción de código boilerplate |
-| Jackson | — | Serialización/deserialización JSON |
+### Backend & Seguridad
+*   Java 21
+*   Spring Boot 3.x (Spring Data JPA, Spring Security, Spring Cloud Gateway)
+*   JWT (JSON Web Token)
+*   Lombok & Hibernate
 
 ### Base de Datos
-
-| Base de Datos | Motor | Descripción |
-|---|---|---|
-| `bd_nutricionista` | MySQL 8 | Datos de los profesionales nutricionales |
-| `bd_paciente` | MySQL 8 | Perfiles de pacientes y tipos de dieta |
-| `bd_alimento` | MySQL 8 | Catálogo de alimentos y categorías |
-| `bd_receta` | MySQL 8 | Recetas e ingredientes asociados |
-| `bd_cita` | MySQL 8 | Gestión de citas y estados |
+*   MySQL 8 (Administrado localmente vía XAMPP o similar)
 
 ### Herramientas
-
-| Herramienta | Uso |
+| Herramienta | Uso / Descripción |
 |---|---|
-| Maven | Gestión de dependencias y build |
-| Git & GitHub | Control de versiones |
-| Postman / Insomnia | Pruebas de endpoints REST |
-| MySQL Workbench | Administración de bases de datos |
+| Maven | Gestión de dependencias y empaquetado (build) |
+| Git & GitHub | Control de versiones y repositorio de código |
+| Postman | Pruebas de endpoints REST y seguridad |
+| XAMPP | Servidor local Apache y base de datos MySQL |
+| Swagger UI / OpenAPI | Documentación interactiva de APIs de los microservicios |
 
 ---
 
 ## 🏗️ Arquitectura
 
-```
-                         ┌──────────────────────┐
-                         │    API Gateway :9090  │
-                         └──────────┬───────────┘
-                                    │
-      ┌───────────────┬─────────────┼─────────────┬───────────────┐
-      │               │             │             │               │
-┌─────▼───────┐ ┌─────▼───────┐ ┌───▼────┐ ┌──────▼──────┐ ┌──────▼──────┐
-│Nutricionista│ │  Paciente   │ │  Cita  │ │ api-recetas │ │api-alimentos│
-│   :8081     │ │   :8085     │ │ :8084  │ │   :8082     │ │   :8083     │
-└─────┬───────┘ └─────┬───────┘ └───┬────┘ └──────┬──────┘ └──────┬──────┘
-      │               │             │             │               │
-┌─────▼───────┐ ┌─────▼───────┐ ┌───▼────┐ ┌──────▼──────┐ ┌──────▼──────┐
-│bd_nutricion │ │ bd_paciente │ │bd_cita │ │  bd_receta  │ │ bd_alimento │
-└─────────────┘ └─────────────┘ └────────┘ └─────────────┘ └─────────────┘
-```
+El sistema está compuesto por los siguientes servicios:
+1.  **apigateway** (Puerto `9090`)
+2.  **auth-service** (Puerto `8090`)
+3.  **servicio-nutricionista** (Puerto `8081`)
+4.  **servicio-paciente** (Puerto `8085`)
+5.  **servicio-recetas** (Puerto `8082`)
+6.  **servicio-alimentos** (Puerto `8083`)
+7.  **servicio-citas** (Puerto `8084`)
+8.  **servicio-minutas** (Puerto `8086`)
+9.  **servicio-antecedentes** (Puerto `8087`)
+10. **servicio-rutinas** (Puerto `8089`)
 
 > 📷 El diagrama de arquitectura del sistema se encuentra en [`Diagrama de arquitectura.png`](./Diagrama%20de%20arquitectura.png) en la raíz del repositorio.
+
+---
+
+## 🔐 Control de Acceso y Roles
+
+El acceso a los recursos del ecosistema está protegido y regulado bajo la siguiente **Matriz de Control de Permisos**:
+
+| Acción / Método HTTP | ADMINISTRADOR | NUTRICIONISTA | PACIENTE | ADMINISTRATIVO | INTERNAL (WebClient) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **GET** (Consultar/Listar) | **Permitido** | **Permitido** | **Permitido** | *Denegado* | **Permitido** |
+| **POST** (Crear nuevo) | **Permitido** | **Permitido** | *Denegado* | *Denegado* | **Permitido** |
+| **PUT** (Modificar existente) | **Permitido** | **Permitido** | *Denegado* | *Denegado* | **Permitido** |
+| **DELETE** (Eliminar recurso) | **Permitido** | *Denegado* | *Denegado* | *Denegado* | **Permitido** |
+
+*Nota:* Las peticiones internas que se realizan mediante `WebClient` utilizan una firma secreta (`X-Internal-Request`) que les otorga el rol automático `INTERNAL`, permitiendo el flujo de datos necesario entre servicios.
 
 ---
 
 ## 🚀 Instalación y Ejecución
 
 ### Prerrequisitos
-
 Asegúrate de tener instalado lo siguiente en tu equipo:
+*   [Java 21+](https://adoptium.net/)
+*   [Maven 3.9+](https://maven.apache.org/)
+*   [Git](https://git-scm.com/)
+*   [XAMPP](https://www.apachefriends.org/es/index.html) (para base de datos MySQL)
 
-- [Java 21+](https://adoptium.net/)
-- [Maven 3.9+](https://maven.apache.org/)
-- [MySQL 8.0+](https://dev.mysql.com/downloads/mysql/)
-- [Git](https://git-scm.com/)
+Sigue estos pasos para clonar, configurar y ejecutar todo el ecosistema de NutriHealth localmente:
 
-### 1. Clonar el repositorio
-
+### 1. Clonar el Repositorio
 ```bash
 git clone https://github.com/tu-usuario/nutrihealth-parra-maripan-aliaga.git
 cd nutrihealth-parra-maripan-aliaga
 ```
 
-### 2. Crear las bases de datos en MySQL
+### 2. Iniciar XAMPP
+1. Abre el panel de control de **XAMPP** en tu equipo.
+2. Inicia el módulo **Apache** haciendo clic en *Start*.
+3. Inicia el módulo **MySQL** haciendo clic en *Start*.
 
+### 3. Crear las Bases de Datos
+Abre phpMyAdmin (`http://localhost/phpmyadmin`) o tu cliente MySQL favorito y ejecuta la creación de las bases de datos requeridas:
 ```sql
+CREATE DATABASE bd_seguridad;
 CREATE DATABASE bd_nutricionista;
 CREATE DATABASE bd_paciente;
-CREATE DATABASE bd_alimento;
 CREATE DATABASE bd_receta;
+CREATE DATABASE bd_alimento;
 CREATE DATABASE bd_cita;
+CREATE DATABASE bd_minuta;
+CREATE DATABASE bd_antecedente;
+CREATE DATABASE bd_rutina;
 ```
 
-### 3. Configurar credenciales
-
-Cada microservicio tiene su propio `application.properties`:
-
-```
-backend/nutricionista/src/main/resources/application.properties
-backend/paciente/src/main/resources/application.properties
-backend/api-alimentos/src/main/resources/application.properties
-backend/api-recetas/src/main/resources/application.properties
-backend/cita/src/main/resources/application.properties
-```
-
-```properties
-spring.datasource.username=root
-spring.datasource.password=
-```
-
-### 4. Cargar datos de prueba (opcional)
-
-Una vez que los servicios hayan creado las tablas automáticamente (gracias a `ddl-auto=update`), puedes ejecutar el script de datos de prueba:
+### 4. Activar y Ejecutar todas las APIs
+Cada servicio se inicia independientemente. Puedes importarlos en tu IDE favorito (como IntelliJ IDEA, Spring Tool Suite o VS Code) e iniciarlos todos en paralelo, o bien ejecutar los siguientes comandos en terminales separadas:
 
 ```bash
-mysql -u root -p < backend/datos_prueba.sql
-```
+# Iniciar Auth-Service (Puerto 8090)
+cd backend/auth-service
+mvn spring-boot:run
 
-> ⚠️ **Importante:** Ejecuta primero todos los microservicios al menos una vez antes de cargar el script, para que Hibernate genere las tablas.
+# Iniciar Nutricionista (Puerto 8081)
+cd ../nutricionista
+mvn spring-boot:run
 
-### 5. Ejecutar los microservicios
+# Iniciar Paciente (Puerto 8085)
+cd ../paciente
+mvn spring-boot:run
 
-Debes ejecutar Los microservicos al mismo tiempo que la apigateway en tu IDE de preferencia o usando la terminal.
+# Iniciar Recetas (Puerto 8082)
+cd ../api-recetas
+mvn spring-boot:run
 
-Abre **5 terminales** independientes y ejecuta cada servicio:
+# Iniciar Alimentos (Puerto 8083)
+cd ../api-alimentos
+mvn spring-boot:run
 
-```bash
-# Terminal 1 — Nutricionista (puerto 8081)
-cd backend/nutricionista
+# Iniciar Citas (Puerto 8084)
+cd ../cita
+mvn spring-boot:run
+
+# Iniciar Minutas (Puerto 8086)
+cd ../api-minutas
+mvn spring-boot:run
+
+# Iniciar Antecedentes (Puerto 8087)
+cd ../api-antecedentes
+mvn spring-boot:run
+
+# Iniciar Rutinas (Puerto 8089)
+cd ../api-rutinas
+mvn spring-boot:run
+
+# Iniciar API Gateway (Puerto 9090) - ¡Iniciar al final!
+cd ../apigateway
 mvn spring-boot:run
 ```
 
-```bash
-# Terminal 2 — Paciente (puerto 8085)
-cd backend/paciente
-mvn spring-boot:run
+### 5. Proceso de Prueba de Autenticación
+
+Para verificar el correcto funcionamiento de la autenticación y probar la seguridad por roles, registra los 3 tipos de usuario en Postman/cURL enviando peticiones **POST** a `http://localhost:9090/auth/register`:
+
+#### 1. Crear Administrador
+```json
+{
+  "nombreUsuario": "admin_test",
+  "contrasena": "123456",
+  "correo": "admin@test.com",
+  "roles": ["ADMINISTRADOR"]
+}
 ```
 
-```bash
-# Terminal 3 — API Alimentos (puerto 8083)
-cd backend/api-alimentos
-mvn spring-boot:run
+#### 2. Crear Nutricionista
+```json
+{
+  "nombreUsuario": "nutri_test",
+  "contrasena": "123456",
+  "correo": "nutri@test.com",
+  "roles": ["NUTRICIONISTA"]
+}
 ```
 
-```bash
-# Terminal 4 — API Recetas (puerto 8082)
-cd backend/api-recetas
-mvn spring-boot:run
+#### 3. Crear Paciente
+```json
+{
+  "nombreUsuario": "paciente_test",
+  "contrasena": "123456",
+  "correo": "paciente@test.com",
+  "roles": ["PACIENTE"]
+}
 ```
 
-```bash
-# Terminal 5 — Cita (puerto 8084)
-cd backend/cita
-mvn spring-boot:run
-```
+#### Inicio de Sesión (Obtener JWT)
+Envía un **POST** a `http://localhost:9090/auth/login` con el `nombreUsuario` y `contrasena` de cualquiera de los usuarios anteriores. Copia el token de la respuesta y úsalo como **Bearer Token** en las pestañas de autorización de Postman para probar el acceso a los microservicios:
 
-```bash
-# Terminal 6 — API Gateway (puerto 9090) — Iniciar AL FINAL
-cd backend/apigateway
-mvn spring-boot:run
-```
+Esta regla de permisos es **global** y se aplica bajo el mismo criterio para **todas las rutas** de todos los microservicios (como `/pacientes`, `/nutricionistas`, `/rutinas`, `/recetas`, `/alimentos`, `/citas`, `/minutas` y `/antecedentes`):
 
-### 6. Verificar el sistema
+*   **GET /api/v1/api** (Consultar cualquiera) -> Funciona con todos los roles (`ADMINISTRADOR`, `NUTRICIONISTA`, `PACIENTE`).
+*   **POST/PUT /api/v1/api** (Crear o Editar cualquiera) -> Funciona solo con `ADMINISTRADOR` y `NUTRICIONISTA`.
+*   **DELETE /api/v1/api/1** (Eliminar cualquiera) -> Funciona únicamente con `ADMINISTRADOR`.
 
-Todos los servicios son accesibles directamente en sus puertos individuales, o a través del **API Gateway** en `http://localhost:9090`.
-
-```bash
-# Ejemplo: listar todos los nutricionistas vía API Gateway
-curl http://localhost:9090/api/v1/nutricionistas
-```
 
 ---
 
 ## 📡 Endpoints de la API
 
-Todos los endpoints son accesibles a través del **API Gateway** en `http://localhost:9090`.
+Todos los endpoints se consumen de manera centralizada a través del **API Gateway** en `http://localhost:9090`.
 
-### 👨‍⚕️ Nutricionistas — Servicio: `http://localhost:8081`
+### 🔐 Autenticación — Servicio: `http://localhost:8090`
+*   `POST /auth/register` — Registro de usuarios asignando roles (`ADMINISTRADOR`, `NUTRICIONISTA`, `PACIENTE`).
+*   `POST /auth/login` — Autenticación para obtener el token Bearer JWT.
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/v1/nutricionistas` | Listar todos los nutricionistas |
-| `GET` | `/api/v1/nutricionistas/{id}` | Obtener nutricionista por ID |
-| `POST` | `/api/v1/nutricionistas` | Crear nuevo nutricionista |
-| `PUT` | `/api/v1/nutricionistas/{id}` | Actualizar nutricionista existente |
-| `DELETE` | `/api/v1/nutricionistas/{id}` | Eliminar nutricionista |
-
-### 🧑‍⚕️ Pacientes — Servicio: `http://localhost:8085`
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/v1/pacientes` | Listar todos los pacientes |
-| `GET` | `/api/v1/pacientes/{id}` | Obtener paciente por ID |
-| `POST` | `/api/v1/pacientes` | Crear nuevo paciente |
-| `PUT` | `/api/v1/pacientes/{id}` | Actualizar paciente existente |
-| `DELETE` | `/api/v1/pacientes/{id}` | Eliminar paciente |
-| `GET` | `/api/v1/tipos-dieta` | Listar todos los tipos de dieta |
-| `GET` | `/api/v1/tipos-dieta/{id}` | Obtener tipo de dieta por ID |
-| `POST` | `/api/v1/tipos-dieta` | Crear tipo de dieta |
-| `PUT` | `/api/v1/tipos-dieta/{id}` | Actualizar tipo de dieta |
-| `DELETE` | `/api/v1/tipos-dieta/{id}` | Eliminar tipo de dieta |
-
-### 🥦 Alimentos — Servicio: `http://localhost:8083`
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/v1/alimentos` | Listar todos los alimentos |
-| `GET` | `/api/v1/alimentos/{id}` | Obtener alimento por ID |
-| `POST` | `/api/v1/alimentos` | Crear nuevo alimento |
-| `PUT` | `/api/v1/alimentos/{id}` | Actualizar alimento existente |
-| `DELETE` | `/api/v1/alimentos/{id}` | Eliminar alimento |
-| `GET` | `/api/v1/categorias` | Listar todas las categorías |
-| `GET` | `/api/v1/categorias/{id}` | Obtener categoría por ID |
-| `POST` | `/api/v1/categorias` | Crear nueva categoría |
-| `PUT` | `/api/v1/categorias/{id}` | Actualizar categoría |
-| `DELETE` | `/api/v1/categorias/{id}` | Eliminar categoría |
-
-### 📒 Recetas — Servicio: `http://localhost:8082`
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/v1/recetas` | Listar todas las recetas |
-| `GET` | `/api/v1/recetas/{id}` | Obtener receta por ID |
-| `POST` | `/api/v1/recetas` | Crear nueva receta |
-| `PUT` | `/api/v1/recetas/{id}` | Actualizar receta existente |
-| `DELETE` | `/api/v1/recetas/{id}` | Eliminar receta |
-| `GET` | `/api/v1/ingredientes` | Listar todos los ingredientes |
-| `GET` | `/api/v1/ingredientes/{id}` | Obtener ingrediente por ID |
-| `POST` | `/api/v1/ingredientes` | Añadir ingrediente a receta |
-| `PUT` | `/api/v1/ingredientes/{id}` | Actualizar ingrediente |
-| `DELETE` | `/api/v1/ingredientes/{id}` | Eliminar ingrediente |
-
-### 📅 Citas — Servicio: `http://localhost:8084`
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/v1/citas` | Listar todas las citas |
-| `GET` | `/api/v1/citas/{id}` | Obtener cita por ID |
-| `POST` | `/api/v1/citas` | Crear nueva cita |
-| `PUT` | `/api/v1/citas/{id}` | Actualizar cita existente |
-| `DELETE` | `/api/v1/citas/{id}` | Eliminar cita |
+### 🧑‍⚕️ Gestión Médica y Nutricional
+*   **Nutricionistas (`/api/v1/nutricionistas/**`)** — Registro y visualización de perfiles clínicos.
+*   **Pacientes (`/api/v1/pacientes/**`)** — Administración de pacientes y tipos de dieta.
+*   **Alimentos (`/api/v1/alimentos/**` y `/api/v1/categorias/**`)** — Catálogo general y macronutrientes.
+*   **Recetas (`/api/v1/recetas/**` e `/api/v1/ingredientes/**`)** — Recetarios personalizados.
+*   **Citas (`/api/v1/citas/**`)** — Agendamiento y estados.
+*   **Minutas (`/api/v1/minutas/**`)** — Dietas y comidas.
+*   **Antecedentes (`/api/v1/antecedentes/**`)** — Historial clínico, alergias y medicamentos.
+*   **Rutinas (`/api/v1/rutinas/**`)** — Planes de ejercicios.
 
 ---
 
 ## 📬 Contacto
 
-¿Tienes preguntas o sugerencias? No dudes en ponerte en contacto.
-
 **Autores:**
-
-- [Javier Parra](https://github.com/JavierPKS)
-- [Antonia Maripan](https://github.com/AbigailMny)
-- [Nicol Aliaga](https://github.com/Ni-maxd)
+*   [Javier Parra](https://github.com/JavierPKS)
+*   [Antonia Maripan](https://github.com/AbigailMny)
+*   [Nicol Aliaga](https://github.com/Ni-maxd)
 
 ---
-
 <p align="center">
   NutriHealth © 2026
 </p>
