@@ -1,4 +1,4 @@
-package com.antecedentes.api_antecedentes.config;
+package com.recetas.api_recetas.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -20,9 +20,9 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("API NutriHealth - Servicio de Antecedentes")
+                        .title("API NutriHealth - Servicio de Recetas")
                         .version("1.0")
-                        .description("Documentación del microservicio de antecedentes clínicos"))
+                        .description("Documentación del microservicio de recetas"))
                 .servers(List.of(
                         new Server().url("http://localhost:9090").description("Servidor a través del Gateway")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))

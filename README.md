@@ -241,6 +241,10 @@ Esta regla de permisos es **global** y se aplica bajo el mismo criterio para **t
 
 Todos los endpoints se consumen de manera centralizada a través del **API Gateway** en `http://localhost:9090`.
 
+### 📖 Documentación Swagger / OpenAPI (Pruebas de la API)
+Puedes visualizar y probar de manera interactiva todos los endpoints mediante la interfaz de Swagger UI. Una vez que los servicios estén en ejecución, accede a la siguiente URL en tu navegador:
+*   **`http://localhost:9090/swagger-ui.html`**
+
 ### 🔐 Autenticación — Servicio: `http://localhost:8090`
 *   `POST /auth/register` — Registro de usuarios asignando roles (`ADMINISTRADOR`, `NUTRICIONISTA`, `PACIENTE`).
 *   `POST /auth/login` — Autenticación para obtener el token Bearer JWT.
