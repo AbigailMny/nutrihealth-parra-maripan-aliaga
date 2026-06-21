@@ -29,7 +29,7 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api/v1/rutinas/v3/api-docs", "/error").permitAll()
+						.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api/v1/rutinas/v3/api-docs", "/api/v1/rutinas/v3/api-docs/**", "/error").permitAll()
 						.requestMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMINISTRADOR", "ADMIN", "NUTRICIONISTA", "PACIENTE", "INTERNAL")
 						.requestMatchers(HttpMethod.POST, "/**").hasAnyRole("ADMINISTRADOR", "ADMIN", "NUTRICIONISTA", "INTERNAL")
 						.requestMatchers(HttpMethod.PUT, "/**").hasAnyRole("ADMINISTRADOR", "ADMIN", "NUTRICIONISTA", "INTERNAL")

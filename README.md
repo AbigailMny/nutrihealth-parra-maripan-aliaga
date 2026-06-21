@@ -59,23 +59,27 @@ El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de t
 
 ## 🛠️ Tecnologías Utilizadas
 
-### Backend & Seguridad
-*   Java 21
-*   Spring Boot 3.x (Spring Data JPA, Spring Security, Spring Cloud Gateway)
-*   JWT (JSON Web Token)
-*   Lombok & Hibernate
+### Herramientas de Instalación y Desarrollo
+*   **Java Development Kit (JDK) 21**: Entorno de ejecución y desarrollo.
+*   **Apache Maven 3.9+**: Herramienta principal de instalación y gestión de dependencias (bibliotecas) y construcción del proyecto.
+*   **Git**: Sistema de control de versiones.
+*   **XAMPP**: Entorno para ejecutar el servidor MySQL de forma local.
+*   **IDE Recomendado**: IntelliJ IDEA, Spring Tool Suite o VS Code.
+*   **Postman**: Para pruebas de endpoints REST y seguridad.
+
+### Bibliotecas Utilizadas (Backend & Seguridad)
+*   **Spring Boot 3.x**: Framework base para microservicios.
+    *   **Spring Web**: Para construcción de APIs RESTful.
+    *   **Spring Data JPA**: Para la persistencia de datos relacionales.
+    *   **Spring Security**: Para el control de acceso y autenticación.
+    *   **Spring Cloud Gateway**: Para el enrutamiento de peticiones centralizado.
+*   **io.jsonwebtoken (JJWT)**: Para la generación y validación de JSON Web Tokens (JWT) en la seguridad.
+*   **Lombok**: Para reducir el código repetitivo (getters, setters, constructores).
+*   **Hibernate**: Como implementación de JPA para el ORM.
+*   **Springdoc OpenAPI (Swagger)**: Para la generación automática de la documentación interactiva de la API.
 
 ### Base de Datos
 *   MySQL 8 (Administrado localmente vía XAMPP o similar)
-
-### Herramientas
-| Herramienta | Uso / Descripción |
-|---|---|
-| Maven | Gestión de dependencias y empaquetado (build) |
-| Git & GitHub | Control de versiones y repositorio de código |
-| Postman | Pruebas de endpoints REST y seguridad |
-| XAMPP | Servidor local Apache y base de datos MySQL |
-| Swagger UI / OpenAPI | Documentación interactiva de APIs de los microservicios |
 
 ---
 
@@ -245,8 +249,28 @@ Esta regla de permisos es **global** y se aplica bajo el mismo criterio para **t
 Todos los endpoints se consumen de manera centralizada a través del **API Gateway** en `http://localhost:9090`.
 
 ### 📖 Documentación Swagger / OpenAPI (Pruebas de la API)
-Puedes visualizar y probar de manera interactiva todos los endpoints mediante la interfaz de Swagger UI. Una vez que los servicios estén en ejecución, accede a la siguiente URL en tu navegador:
-*   **`http://localhost:9090/swagger-ui.html`**
+Puedes visualizar y probar de manera interactiva todos los endpoints mediante la interfaz de Swagger UI centralizada en el API Gateway. 
+
+**Ejemplos de ruta para ejecución de Swagger:**
+*   **Swagger Centralizado (Gateway):** `http://localhost:9090/swagger-ui.html`
+
+Desde la interfaz de Swagger del Gateway, puedes seleccionar la definición de cada microservicio en el menú desplegable superior (ej. `auth-service`, `api-paciente`, `api-metas`, etc.) para ver sus endpoints específicos y probarlos directamente desde el navegador.
+
+### 💡 Ejemplos de rutas para ejecución de API Rest
+
+A continuación se presentan ejemplos de cómo consumir la API a través del API Gateway (`localhost:9090`). Recuerda incluir el encabezado `Authorization: Bearer <TU_TOKEN>` para endpoints protegidos (excepto registro y login).
+
+*   **Listar todos los pacientes (GET):**
+    `http://localhost:9090/api/v1/pacientes`
+*   **Obtener un nutricionista específico por ID (GET):**
+    `http://localhost:9090/api/v1/nutricionistas/1`
+*   **Crear un nuevo alimento (POST):**
+    `http://localhost:9090/api/v1/alimentos` *(Requiere enviar cuerpo JSON con los datos del alimento)*
+*   **Actualizar una meta de salud (PUT):**
+    `http://localhost:9090/api/v1/metas/1` *(Requiere enviar cuerpo JSON con los datos actualizados)*
+*   **Eliminar una cita (DELETE):**
+    `http://localhost:9090/api/v1/citas/5`
+
 
 ### 🔐 Autenticación — Servicio: `http://localhost:8090`
 *   `POST /auth/register` — Registro de usuarios asignando roles (`ADMINISTRADOR`, `NUTRICIONISTA`, `PACIENTE`).

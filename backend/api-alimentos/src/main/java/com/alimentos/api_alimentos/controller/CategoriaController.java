@@ -24,52 +24,51 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public ResponseEntity <List<Categoria>> listarCategorias(){
-        List <Categoria> categoria = categoriaService.mostrarCategorias();
-        if(categoria.isEmpty()){
+    public ResponseEntity<List<Categoria>> listarCategorias() {
+        List<Categoria> categoria = categoriaService.mostrarCategorias();
+        if (categoria.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(categoria);
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> guardarCategoria(@RequestBody Categoria categoria){
+    public ResponseEntity<Categoria> guardarCategoria(@RequestBody Categoria categoria) {
         Categoria nuevaCategoria = categoriaService.crearCategoria(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaCategoria);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarCategoria(@PathVariable Long id){
-        try{
+    public ResponseEntity<Categoria> buscarCategoria(@PathVariable Long id) {
+        try {
             Categoria categoria = categoriaService.buscarId(id);
             return ResponseEntity.ok(categoria);
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> modificarCategoria(@PathVariable Long id, @RequestBody Categoria categoria){
-        try{
+    public ResponseEntity<Categoria> modificarCategoria(@PathVariable Long id, @RequestBody Categoria categoria) {
+        try {
             Categoria cat = categoriaService.buscarId(id);
             cat.setId_categoria(id);
             cat.setNombre(categoria.getNombre());
 
             categoriaService.crearCategoria(cat);
             return ResponseEntity.ok(categoria);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public String eliminarCategoria(@PathVariable Long id){
-        try{
+    public String eliminarCategoria(@PathVariable Long id) {
+        try {
             categoriaService.eliminarCategoria(id);
             return "La categoria del alimento ha sido eliminado";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "La categoria del alimento no existe";
         }
     }
-
 }

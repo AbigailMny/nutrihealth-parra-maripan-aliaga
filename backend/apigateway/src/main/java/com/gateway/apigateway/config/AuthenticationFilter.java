@@ -57,7 +57,10 @@ public class AuthenticationFilter implements GlobalFilter {
 				"/api/v1/alimentos/v3/api-docs",
 				"/api/v1/minutas/v3/api-docs",
 				"/api/v1/antecedentes/v3/api-docs",
-				"/api/v1/rutinas/v3/api-docs");
+				"/api/v1/rutinas/v3/api-docs",
+				"/api/v1/citas/v3/api-docs",
+				"/api/v1/metas/v3/api-docs",
+				"/api/v1/mediciones/v3/api-docs");
 		return publicPrefixes.stream().anyMatch(path::startsWith);
 	}
 }
