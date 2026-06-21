@@ -208,7 +208,43 @@ INSERT INTO receta_ingredientes (id_alimento, cantidad_gramos, id_receta) VALUES
 (12,  80.0, 7);  -- Yogur natural sin azúcar
 
 -- ─────────────────────────────────────────────────────────────────────
---  5. BD_CITA  (puerto 8084)
+--  6. BD_MEDICIONES  (puerto 8091)
+--     Tabla: mediciones
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_mediciones;
+
+INSERT INTO mediciones (paciente_id, fecha_medicion, peso_kg, talla_cm, grasa_porcentaje, musculo_porcentaje) VALUES
+(1, '2025-06-01 08:00:00', 72.5, 175.0, 18.2, 42.7),
+(2, '2025-06-03 09:30:00', 68.4, 168.5, 22.1, 39.2),
+(3, '2025-06-05 07:45:00', 82.0, 180.0, 24.5, 37.5),
+(4, '2025-06-08 10:15:00', 59.2, 162.0, 20.0, 35.8),
+(5, '2025-06-10 11:00:00', 75.1, 170.0, 19.0, 40.0),
+(1, '2025-06-15 08:15:00', 71.8, 175.0, 17.8, 43.0);
+
+-- ─────────────────────────────────────────────────────────────────────
+--  6. BD_META  (puerto 8088)
+--     Tablas: metas → progresos_meta
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_meta;
+
+INSERT INTO metas (paciente_id, nombre_meta, valor_objetivo, unidad_medida) VALUES
+(1, 'Reducir grasa corporal', 18.0, '%'),
+(2, 'Aumentar masa muscular', 78.0, 'kg'),
+(3, 'Mantener peso estable', 82.0, 'kg'),
+(4, 'Mejorar índice de masa corporal', 22.0, 'kg/m2'),
+(5, 'Aumentar fuerza en press de banca', 110.0, 'kg');
+
+INSERT INTO progresos_meta (meta_id, fecha_registro, valor_alcanzado) VALUES
+(1, '2025-06-05', 20.5),
+(1, '2025-06-20', 19.2),
+(2, '2025-06-08', 74.0),
+(2, '2025-06-22', 76.5),
+(3, '2025-06-10', 82.0),
+(4, '2025-06-12', 23.0),
+(5, '2025-06-14', 110.0);
+
+-- ─────────────────────────────────────────────────────────────────────
+--  7. BD_CITA  (puerto 8084)
 --     Tabla: citas
 -- ─────────────────────────────────────────────────────────────────────
 USE bd_cita;
@@ -223,7 +259,7 @@ INSERT INTO citas (id_paciente, id_nutricionista, fecha_hora_inicio, motivo, est
 (6, 5, '2025-06-04 12:00:00', 'Consulta por alergias alimentarias.', 'X');
 
 -- ─────────────────────────────────────────────────────────────────────
---  6. BD_MINUTA  (puerto 8086)
+--  7. BD_MINUTA  (puerto 8086)
 --     Tabla: minutas
 -- ─────────────────────────────────────────────────────────────────────
 USE bd_minuta;
@@ -238,7 +274,7 @@ INSERT INTO minutas (paciente_id, nutricionista_id, fecha_inicio, fecha_fin, url
 (6, 5, '2025-06-04', '2025-07-04', 'https://nutrihealth.cl/archivos/minutas/paciente_6_alergias.pdf', 'ACTIVA');
 
 -- ─────────────────────────────────────────────────────────────────────
---  7. BD_ANTECEDENTES  (puerto 8087)
+--  8. BD_ANTECEDENTES  (puerto 8087)
 --     Tabla: antecedente
 -- ─────────────────────────────────────────────────────────────────────
 

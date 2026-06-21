@@ -48,7 +48,9 @@ El sistema nace ante la necesidad de digitalizar y profesionalizar el flujo de t
 - 📒 **Gestión de Recetas** — Creación de recetas personalizadas por paciente, con lista de ingredientes y cantidades.
 - 📅 **Gestión de Citas** — Programación y seguimiento de citas entre nutricionistas y pacientes.
 - 📝 **Minutas y Dietas** — Planificación de comidas diarias personalizadas para cada paciente.
-- 📋 **Antecedentes Médicos** — Registro de antecedentes de salud, alergias y medicamentos.
+- � **Mediciones Corporales** — Registro de peso, talla, porcentaje de grasa y masa muscular por paciente.
+- 🎯 **Metas de Salud** — Gestión de objetivos de paciente con seguimiento de progreso.
+- �📋 **Antecedentes Médicos** — Registro de antecedentes de salud, alergias y medicamentos.
 - 🏋️ **Rutinas de Ejercicio** — Creación y asignación de planes de entrenamiento asociados a la dieta.
 - 🔗 **API Gateway** — Punto de entrada único para enrutar el tráfico a todos los microservicios desde el puerto `9090`.
 - 🔑 **Seguridad y JWT** — Microservicio de autenticación centralizado y validación de tokens Bearer.
@@ -88,8 +90,9 @@ El sistema está compuesto por los siguientes servicios:
 6.  **servicio-alimentos** (Puerto `8083`)
 7.  **servicio-citas** (Puerto `8084`)
 8.  **servicio-minutas** (Puerto `8086`)
-9.  **servicio-antecedentes** (Puerto `8087`)
-10. **servicio-rutinas** (Puerto `8089`)
+9.  **servicio-metas** (Puerto `8088`)
+10. **servicio-antecedentes** (Puerto `8087`)
+11. **servicio-rutinas** (Puerto `8089`)
 
 > 📷 El diagrama de arquitectura del sistema se encuentra en [`Diagrama de arquitectura.png`](./Diagrama%20de%20arquitectura.png) en la raíz del repositorio.
 
@@ -256,6 +259,8 @@ Puedes visualizar y probar de manera interactiva todos los endpoints mediante la
 *   **Recetas (`/api/v1/recetas/**` e `/api/v1/ingredientes/**`)** — Recetarios personalizados.
 *   **Citas (`/api/v1/citas/**`)** — Agendamiento y estados.
 *   **Minutas (`/api/v1/minutas/**`)** — Dietas y comidas.
+*   **Mediciones (`/api/v1/mediciones/**`)** — Registro y consulta de mediciones corporales por paciente.
+*   **Metas (`/api/v1/metas/**`)** — Gestión de objetivos de salud con seguimiento de progresos.
 *   **Antecedentes (`/api/v1/antecedentes/**`)** — Historial clínico, alergias y medicamentos.
 *   **Rutinas (`/api/v1/rutinas/**`)** — Planes de ejercicios.
 
