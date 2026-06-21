@@ -380,6 +380,26 @@ INSERT INTO ejercicios_rutina (rutina_id, nombre_ejercicio, series, repeticiones
 (7, 'Curl de martillo',         3, 12, 45),
 (7, 'Abdominales en crunch',    3, 20, 30);
 
+-- ─────────────────────────────────────────────────────────────────────
+--  11. BD_SEGURIDAD  (puerto 8090)
+--      Tablas: roles, usuarios, usuario_roles
+-- ─────────────────────────────────────────────────────────────────────
+USE bd_seguridad;
+
+INSERT INTO roles (nombre_rol) VALUES
+('ROLE_NUTRICIONISTA'),
+('ROLE_ADMIN'),
+('ROLE_PACIENTE');
+
+-- Contraseña para todos: 123456 (hash bcrypt común $2a$10$...)
+INSERT INTO usuarios (nombre_usuario, contrasena, correo) VALUES
+('nutri1', '$2a$10$QyG.48mBHMq6enSN1rqvnu7zJLMiUUfGxnKiHly5St0QuY6xlbxnW', 'nutri1@nutrihealth.cl'),
+('admin1', '$2a$10$kbBO8YTn6PaoOjhzx2fUUutzovgSMUOXFS.75AHGqfxLSqpmiWydO', 'user@example.com');
+
+INSERT INTO usuario_roles (usuario_id, rol_id) VALUES
+(1, 1), -- nutri1 -> ROLE_NUTRICIONISTA
+(2, 2); -- admin -> ROLE_ADMIN
+
 -- =====================================================================
 --  FIN DEL SCRIPT
 -- =====================================================================
